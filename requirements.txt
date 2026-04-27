@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+xgboost
+numpy
+pandas
+prometheus-fastapi-instrumentator
+pydantic
+httpx
+kafka-python
+websockets
+pyarrow
+scikit-learn
+mlflow
+evidently>=0.4.20
+python-dotenv
+ruff
+pytest
