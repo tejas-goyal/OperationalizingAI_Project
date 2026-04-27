@@ -6,6 +6,10 @@ Real-time BTC-USD / ETH-USD volatility spike detection — XGBoost + FastAPI + P
 
 **Team:** Eshita Raj Vegesna, Vaishnavi Athrey Ramesh, Litesha Nagendra, Tejas Goyal
 
+**Demo video:** [YouTube](https://youtu.be/kMenwb_qBR0)
+
+**Team report:** [Crypto_Volatility_Team_Report.pdf](Crypto_Volatility_Team_Report.pdf)
+
 ## Quick Start
 
 ```bash
