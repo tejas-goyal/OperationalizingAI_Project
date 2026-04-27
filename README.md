@@ -18,6 +18,19 @@ docker compose -f docker/compose.yaml up -d --build
 # API → localhost:8000 | Grafana → localhost:3000 | Prometheus → localhost:9090
 ```
 
+## Local development (uv)
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) if needed, then from the repo root:
+
+```bash
+uv venv              # creates .venv (gitignored)
+uv pip install -r requirements.txt
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Or in one step without activating: `uv run uvicorn api.main:app --reload --host 0.0.0.0 --port 8000`
+
 ## Sample Request
 
 ```bash
