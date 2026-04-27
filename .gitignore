@@ -1,0 +1,8 @@
+.DS_Store
+.env
+__MACOSX/
+venv/
+.venv/
+*.py[cod]
+__pycache__/
+*.zip
