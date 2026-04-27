@@ -32,9 +32,7 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 KAFKA_BOOTSTRAP = os.getenv("KAFKA_BOOTSTRAP", "localhost:9092")
-COINBASE_WS_URL = os.getenv(
-    "COINBASE_WS_URL", "wss://advanced-trade-ws.coinbase.com"
-)
+COINBASE_WS_URL = os.getenv("COINBASE_WS_URL", "wss://advanced-trade-ws.coinbase.com")
 TOPIC = "ticks.raw"
 MAX_BACKOFF = 60
 
@@ -64,10 +62,13 @@ def create_producer(retries=5):
             log.info("Kafka producer connected to %s", KAFKA_BOOTSTRAP)
             return producer
         except Exception as e:
-            wait = min(2 ** attempt, MAX_BACKOFF)
+            wait = min(2**attempt, MAX_BACKOFF)
             log.warning(
                 "Kafka connection failed (attempt %d/%d): %s. Retrying in %ds...",
-                attempt + 1, retries, e, wait,
+                attempt + 1,
+                retries,
+                e,
+                wait,
             )
             time.sleep(wait)
     log.error("Could not connect to Kafka after %d attempts", retries)

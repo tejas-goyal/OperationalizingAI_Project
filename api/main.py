@@ -60,6 +60,7 @@ signal.signal(signal.SIGINT, handle_shutdown)
 
 class PredictRequest(BaseModel):
     """Legacy single-row request: {"features": {...}}"""
+
     features: dict
 
 
@@ -74,6 +75,7 @@ class PredictResponse(BaseModel):
 
 class RowsRequest(BaseModel):
     """Batch request: {"rows": [{"ret_mean_10s": 0.05, ...}, ...]}"""
+
     rows: List[dict]
 
 
@@ -119,7 +121,10 @@ def predict_rows(request: RowsRequest):
             if MODEL_VARIANT == "baseline":
                 val = row.get("ret_std_60s", 0.0)
                 prob = float(
-                    min(1.0, max(0.0, (val - baseline["mu"]) / (baseline["sigma"] + 1e-12)))
+                    min(
+                        1.0,
+                        max(0.0, (val - baseline["mu"]) / (baseline["sigma"] + 1e-12)),
+                    )
                 )
             else:
                 feat_row = [row.get(f, 0.0) for f in FEATURE_COLS]

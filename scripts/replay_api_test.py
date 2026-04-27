@@ -7,6 +7,7 @@ Usage:
     python scripts/replay_api_test.py --parquet data/processed/features.parquet --n 50
     python scripts/replay_api_test.py --n 50   # uses synthetic data
 """
+
 import argparse
 import os
 import random
@@ -16,13 +17,26 @@ import statistics
 import httpx
 
 FEATURE_COLS = [
-    "ret_mean_10s", "ret_std_10s", "ret_abs_10s", "tick_count_10s",
-    "spread_mean_10s", "trade_intensity_10s",
-    "ret_mean_30s", "ret_std_30s", "ret_abs_30s", "tick_count_30s",
-    "spread_mean_30s", "trade_intensity_30s",
-    "ret_mean_60s", "ret_std_60s", "ret_abs_60s", "tick_count_60s",
-    "spread_mean_60s", "trade_intensity_60s",
-    "spread_bps", "mid_price",
+    "ret_mean_10s",
+    "ret_std_10s",
+    "ret_abs_10s",
+    "tick_count_10s",
+    "spread_mean_10s",
+    "trade_intensity_10s",
+    "ret_mean_30s",
+    "ret_std_30s",
+    "ret_abs_30s",
+    "tick_count_30s",
+    "spread_mean_30s",
+    "trade_intensity_30s",
+    "ret_mean_60s",
+    "ret_std_60s",
+    "ret_abs_60s",
+    "tick_count_60s",
+    "spread_mean_60s",
+    "trade_intensity_60s",
+    "spread_bps",
+    "mid_price",
 ]
 
 
@@ -60,7 +74,8 @@ def load_rows_from_parquet(path, n):
     df = df.head(n)
 
     feat_cols = [
-        c for c in df.columns
+        c
+        for c in df.columns
         if c not in ["ts", "product_id", "label", "future_vol"]
         and df[c].dtype in ["float64", "float32", "int64", "int32"]
     ]
@@ -101,9 +116,7 @@ def main():
             payload = {"rows": [features]}
             t0 = time.time()
             try:
-                r = client.post(
-                    f"{args.url}/predict", json=payload, timeout=5.0
-                )
+                r = client.post(f"{args.url}/predict", json=payload, timeout=5.0)
                 latencies.append((time.time() - t0) * 1000)
                 if r.status_code == 200:
                     data = r.json()
@@ -116,7 +129,7 @@ def main():
                 errors += 1
                 print(f"Row {i} failed: {e}")
 
-    print(f"\n=== Replay Test Results ===")
+    print("\n=== Replay Test Results ===")
     print(f"Rows replayed:   {len(rows)}")
     print(f"Successful:      {len(latencies)}")
     print(f"Errors:          {errors}")

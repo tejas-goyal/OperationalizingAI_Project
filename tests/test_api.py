@@ -1,4 +1,5 @@
 """Integration tests for FastAPI endpoints."""
+
 import sys
 import os
 

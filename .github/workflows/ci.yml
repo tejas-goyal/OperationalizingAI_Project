@@ -21,7 +21,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install ruff black pytest
-          pip install fastapi uvicorn xgboost numpy pandas \
+          pip install fastapi uvicorn xgboost scikit-learn numpy pandas \
                       prometheus-fastapi-instrumentator pydantic httpx
 
       - name: Lint with ruff

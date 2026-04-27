@@ -19,17 +19,32 @@ import pandas as pd
 from evidently import Report
 from evidently.presets import DataDriftPreset
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s"
+)
 log = logging.getLogger(__name__)
 
 FEATURE_COLS = [
-    "ret_mean_10s", "ret_std_10s", "ret_abs_10s", "tick_count_10s",
-    "spread_mean_10s", "trade_intensity_10s",
-    "ret_mean_30s", "ret_std_30s", "ret_abs_30s", "tick_count_30s",
-    "spread_mean_30s", "trade_intensity_30s",
-    "ret_mean_60s", "ret_std_60s", "ret_abs_60s", "tick_count_60s",
-    "spread_mean_60s", "trade_intensity_60s",
-    "spread_bps", "mid_price",
+    "ret_mean_10s",
+    "ret_std_10s",
+    "ret_abs_10s",
+    "tick_count_10s",
+    "spread_mean_10s",
+    "trade_intensity_10s",
+    "ret_mean_30s",
+    "ret_std_30s",
+    "ret_abs_30s",
+    "tick_count_30s",
+    "spread_mean_30s",
+    "trade_intensity_30s",
+    "ret_mean_60s",
+    "ret_std_60s",
+    "ret_abs_60s",
+    "tick_count_60s",
+    "spread_mean_60s",
+    "trade_intensity_60s",
+    "spread_bps",
+    "mid_price",
 ]
 
 DRIFT_THRESHOLD = 0.5
@@ -76,12 +91,19 @@ def run_drift_check(reference_path: str, current_path: str, output_path: str) ->
         "alert": drift_ratio > DRIFT_THRESHOLD,
     }
 
-    log.info("Drift ratio: %.1f%% (%d/%d features)",
-             drift_ratio * 100, len(drifted_features), total_features)
+    log.info(
+        "Drift ratio: %.1f%% (%d/%d features)",
+        drift_ratio * 100,
+        len(drifted_features),
+        total_features,
+    )
 
     if summary["alert"]:
-        log.warning("DRIFT ALERT: %.1f%% of features drifted (threshold: %.0f%%)",
-                     drift_ratio * 100, DRIFT_THRESHOLD * 100)
+        log.warning(
+            "DRIFT ALERT: %.1f%% of features drifted (threshold: %.0f%%)",
+            drift_ratio * 100,
+            DRIFT_THRESHOLD * 100,
+        )
         log.warning("Consider retraining the model or rolling back to baseline.")
     else:
         log.info("No drift alert. System operating within expected bounds.")
@@ -91,10 +113,18 @@ def run_drift_check(reference_path: str, current_path: str, output_path: str) ->
 
 def main():
     parser = argparse.ArgumentParser(description="Run Evidently drift detection")
-    parser.add_argument("--reference", required=True, help="Path to reference features parquet")
-    parser.add_argument("--current", required=True, help="Path to current features parquet")
-    parser.add_argument("--output", default="docs/evidently_drift_report.html", help="Output HTML path")
-    parser.add_argument("--json-output", default=None, help="Optional: save summary as JSON")
+    parser.add_argument(
+        "--reference", required=True, help="Path to reference features parquet"
+    )
+    parser.add_argument(
+        "--current", required=True, help="Path to current features parquet"
+    )
+    parser.add_argument(
+        "--output", default="docs/evidently_drift_report.html", help="Output HTML path"
+    )
+    parser.add_argument(
+        "--json-output", default=None, help="Optional: save summary as JSON"
+    )
     args = parser.parse_args()
 
     summary = run_drift_check(args.reference, args.current, args.output)

@@ -1,4 +1,5 @@
 """Load test — 100 burst requests to /predict endpoint."""
+
 import time
 import statistics
 import httpx
